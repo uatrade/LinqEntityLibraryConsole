@@ -70,6 +70,21 @@ namespace LibraryConsoleEntity
             }
         }
 
+        static void AllFreeBooks()
+        {
+            using (Library2Entities db=new Library2Entities())
+            {
+                var UsersBookId = (from x in db.Users select x.TakeBookId).ToList();
+                var result = (from b in db.Book where UsersBookId.Contains(b.Id)!=true select b.Title).ToList();
+
+                Console.WriteLine("Free Books");
+                foreach (var item in result)
+                {
+                    Console.WriteLine("{0}", item);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             Author author1 = new Author { FirstName = "Alex", LastName = "Petrov" };
@@ -122,7 +137,9 @@ namespace LibraryConsoleEntity
 
             AllDebtors();   //Должники
 
-            listAuthorsOfBook();
+            listAuthorsOfBook();  //Список авторов книги №3
+
+            AllFreeBooks();  //свободные книги
         }
     }
 }
