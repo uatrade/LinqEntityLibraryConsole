@@ -85,6 +85,37 @@ namespace LibraryConsoleEntity
             }
         }
 
+        static void BooksTakeUser2()
+        {
+            using (Library2Entities db=new Library2Entities())
+            {
+                var user2 = db.Users.Take(2).ToList().Skip(1).Single();
+                var bookName = db.Book.Where(b => b.Id == user2.TakeBookId).ToList();
+                Console.WriteLine("Книга на руках у пользователя №2.");
+                foreach (var item in bookName)
+                {
+                    Console.WriteLine(item.Title);
+                }
+               
+            }
+        }
+
+        static void AllDebtorsNull()
+        {
+            using (Library2Entities db=new Library2Entities())
+            {
+                var debtors = db.Users.Where(u => u.IsDebtor==true).ToList();
+
+                Console.WriteLine("Должники");
+                foreach (var item in debtors)
+                {
+                    item.IsDebtor = false;
+                    db.SaveChanges();
+                    Console.WriteLine("{0} {1}", item.UserLastName, item.IsDebtor);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             Author author1 = new Author { FirstName = "Alex", LastName = "Petrov" };
@@ -140,6 +171,10 @@ namespace LibraryConsoleEntity
             listAuthorsOfBook();  //Список авторов книги №3
 
             AllFreeBooks();  //свободные книги
+
+            BooksTakeUser2(); // книги у пользователя №2
+
+            AllDebtorsNull(); //Обнуление задолженности
         }
     }
 }
