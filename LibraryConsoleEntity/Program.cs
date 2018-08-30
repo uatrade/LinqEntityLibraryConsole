@@ -100,7 +100,7 @@ namespace LibraryConsoleEntity
             }
         }
 
-        static void AllDebtorsNull()
+        static void AllDebtorsNull()  //Обнуление долгов
         {
             using (Library2Entities db=new Library2Entities())
             {
